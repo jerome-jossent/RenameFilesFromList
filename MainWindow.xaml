@@ -1,0 +1,54 @@
+﻿<Window x:Class="RenameFilesFromList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RenameFilesFromList"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        Title="Rename files with..." 
+        AllowDrop="True"
+        Drop="Folder_Drop"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Margin="10,5" Orientation="Vertical">
+                <TextBlock Margin="0,5" Text="Drag and drop your folder into this window, then use button to paste new names from clipboard" FontWeight="Bold"/>
+                <TextBlock Margin="0,5" Text="{Binding directory, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
+            <Image Grid.Column="1" Margin="10" Source="/Images/clipboard_to_list.png" RenderOptions.BitmapScalingMode="Fant" Height="50"
+                       MouseDown="PasteNames_Click"
+                       ToolTip="Paste New names from clipboard"/>
+        </Grid>
+
+        <DataGrid Grid.Row="1" x:Name="FileDataGrid"
+                  ItemsSource="{Binding fichiers, UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalScrollBarVisibility="Auto"
+                  ColumnWidth="auto" 
+                  CanUserAddRows="False" CanUserReorderColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Now" Binding="{Binding Before}" />
+                <DataGridTextColumn Header="New names" Binding="{Binding After}" />
+                <DataGridTextColumn Header="New full names" Binding="{Binding AfterFull}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Image Grid.Row="2" Margin="10" Source="/Images/OK.png" 
+                   RenderOptions.BitmapScalingMode="Fant"
+                   HorizontalAlignment="Right"
+                   Height="50"
+                       MouseDown="SetNames_Click"
+                       ToolTip="Set New names"/>
+    </Grid>
+</Window>
